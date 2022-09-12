@@ -25,10 +25,10 @@ public class EmployeeService {
 	}
 
 	public Optional<Employee> getById(Long id) {
-		if (repo.findById(id).isPresent()) {
-			return repo.findById(id);
+		if (!repo.findById(id).isPresent()) {
+			throw new EntityNotFoundException("No employee found");
 		}
-		throw new EntityNotFoundException("No employee found");
+		return repo.findById(id);
 	}
 	
 	public Employee insert(EmployeeDto dto) {
@@ -52,6 +52,9 @@ public class EmployeeService {
 	}
 	
 	public void delete(Long id) {
+		if (!repo.findById(id).isPresent()) {
+			throw new EntityNotFoundException("No employee found");
+		}
 		repo.deleteById(id);
 	}
 }

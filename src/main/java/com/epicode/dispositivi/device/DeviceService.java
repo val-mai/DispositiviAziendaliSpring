@@ -24,10 +24,10 @@ public class DeviceService {
 	}
 
 	public Optional<Device> getById(Long id) {
-		if (repo.findById(id).isPresent()) {
-			return repo.findById(id);
+		if (!repo.findById(id).isPresent()) {
+			throw new EntityNotFoundException();
 		}
-		throw new EntityNotFoundException();
+		return repo.findById(id);
 	}
 	
 	public Device insert(DeviceDto dto) {
@@ -47,9 +47,10 @@ public class DeviceService {
 	}
 	
 	public void delete(Long id) {
+		if (!repo.findById(id).isPresent()) {
+			throw new EntityNotFoundException("No device found");
+		}
 		repo.deleteById(id);
 	}
 
-	
-	
 }

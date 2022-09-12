@@ -20,7 +20,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 @RestController
-@RequestMapping("employee")
+@RequestMapping("/employee")
 public class EmployeeController {
 
 	@Autowired
@@ -59,7 +59,7 @@ public class EmployeeController {
 	@Operation(security = @SecurityRequirement(name = "bearer-authentication"))
 	public ResponseEntity<String> delete(@PathVariable Long id) {
 		service.delete(id);
-		return ResponseEntity.ok("Device deleted");
+		return ResponseEntity.ok("Employee deleted");
 	}
 	
 }
