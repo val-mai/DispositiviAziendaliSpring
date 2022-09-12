@@ -2,6 +2,8 @@ package com.epicode.dispositivi.employee;
 
 import java.util.Optional;
 
+import javax.websocket.server.PathParam;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -38,6 +40,13 @@ public class EmployeeController {
 	@Operation(security = @SecurityRequirement(name = "bearer-authentication"))
 	public ResponseEntity<Optional<Employee>> getById(@PathVariable Long id) {
 		return ResponseEntity.ok(service.getById(id));
+	}
+	
+	@GetMapping("/find")
+	@PreAuthorize("hasRole('USER')")
+	@Operation(security = @SecurityRequirement(name = "bearer-authentication"))
+	public ResponseEntity<Employee> getByUsername(@PathParam(value = "username") String username) {
+		return ResponseEntity.ok(service.getByUsername(username));
 	}
 	
 	@PostMapping

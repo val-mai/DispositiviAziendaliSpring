@@ -31,11 +31,18 @@ public class EmployeeService {
 		return repo.findById(id);
 	}
 	
+	public Employee getByUsername(String name) {
+		if(!repo.existsByUsername(name)) {
+			throw new EntityNotFoundException("No employee with username " + name + " found");
+		}
+		return repo.findByUsername(name);
+	}
+	
 	public Employee insert(EmployeeDto dto) {
 		if(repo.existsByUsername(dto.getUsername())) {
-			throw new EntityExistsException("Employee " + dto.getUsername() + " already in DB");
+			throw new EntityExistsException("Employee with username " + dto.getUsername() + " already in DB");
 		} else if (repo.existsByEmail(dto.getEmail())){
-			throw new EntityExistsException("Employee " + dto.getEmail() + " already in DB");
+			throw new EntityExistsException("Employee with email " + dto.getEmail() + " already in DB");
 		}
 		Employee employee = provider.getObject();
 		BeanUtils.copyProperties(dto, employee);
