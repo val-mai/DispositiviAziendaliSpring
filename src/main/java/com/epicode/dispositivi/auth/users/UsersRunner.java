@@ -42,7 +42,7 @@ public class UsersRunner implements ApplicationRunner {
 		
 		User userAdmin = new User();
 		userAdmin.setUsername("admin");
-		userAdmin.setPassword(  encoder.encode("admin")        );
+		userAdmin.setPassword(encoder.encode("admin"));
 		userAdmin.setRoles(ruoliAmministratore);
 		userRepository.save(userAdmin);
 		
@@ -52,7 +52,7 @@ public class UsersRunner implements ApplicationRunner {
 		User simpleUser = new User();
 		
 		simpleUser.setUsername("valmai");
-		simpleUser.setPassword(   encoder.encode("user")       );
+		simpleUser.setPassword(encoder.encode("user"));
 		simpleUser.setRoles(ruoliUtente);
 		userRepository.save(simpleUser);
 		 

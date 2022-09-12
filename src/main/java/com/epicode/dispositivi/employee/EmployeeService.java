@@ -2,6 +2,7 @@ package com.epicode.dispositivi.employee;
 
 import java.util.Optional;
 
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.BeanUtils;
@@ -27,10 +28,15 @@ public class EmployeeService {
 		if (repo.findById(id).isPresent()) {
 			return repo.findById(id);
 		}
-		throw new EntityNotFoundException();
+		throw new EntityNotFoundException("No employee found");
 	}
 	
 	public Employee insert(EmployeeDto dto) {
+		if(repo.existsByUsername(dto.getUsername())) {
+			throw new EntityExistsException("Employee " + dto.getUsername() + " already in DB");
+		} else if (repo.existsByEmail(dto.getEmail())){
+			throw new EntityExistsException("Employee " + dto.getEmail() + " already in DB");
+		}
 		Employee employee = provider.getObject();
 		BeanUtils.copyProperties(dto, employee);
 		return repo.save(employee);
@@ -41,7 +47,6 @@ public class EmployeeService {
 		if (!device.isPresent()) {
 			throw new EntityNotFoundException("No employye found");
 		}
-		
 		BeanUtils.copyProperties(dto, device.get());
 		return repo.save(device.get());
 	}
